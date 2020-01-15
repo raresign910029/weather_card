@@ -6,10 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>台灣天氣小卡</title>
 
     <style>
+        .bg {
+            width: 100%;
+            background-image: url('./img/green_road.JPG');
+            background-size: cover;
+            background-position: center;
+        }
+
         .cards {
             display: flex;
             flex-wrap: wrap;
@@ -18,29 +26,68 @@
         .card {
             border: 1px solid;
             padding: 20px 50px;
+            margin: 15px;
+            background: linear-gradient(136deg, #7184E3 46%, #509EF2 56%);
+            background: -moz-linear-gradient(136deg, #7184E3 46%, #509EF2 56%);
+            background: -webkit-linear-gradient(136deg, #7184E3 46%, #509EF2 56%);
+            background: -o-linear-gradient(136deg, #7184E3 46%, #509EF2 56%);
         }
+
+
+        .card:hover {
+            background: linear-gradient(136deg, #D6E371 46%, #50F296 79%);
+            background: -moz-linear-gradient(136deg, #D6E371 46%, #50F296 79%);
+            background: -webkit-linear-gradient(136deg, #D6E371 46%, #50F296 79%);
+            background: -o-linear-gradient(136deg, #D6E371 46%, #50F296 79%);
+        }
+        footer .copyrigth {
+  padding-top: 20px;
+}
+
+footer .copyrigth p {
+  text-align: center;
+  max-width: 200px;
+  margin: 0 auto;
+}
     </style>
+
+
 </head>
 
 <body>
 
-    <div class="cards">
-        <div class="row"></div>
-        <!-- <div class="card">
-            <h1>台中市</h1>
-            <h2>晴時多雲</h2>
-            <p>降雨率: 50%</p>
-            <p>溫度: 20 ~ 30C</p>
-        </div> -->
+    <div class="bg">
+        
+        <div class="cards">
+            <div class="container">
+                    <h2>台灣直轄市12小時天氣預報</h2>
+                <div class="row"></div>
+            <!-- <div class="card">
+                <h1>台中市</h1>
+                <h2>晴時多雲</h2>
+                <p>降雨率: 50%</p>
+                <p>溫度: 20 ~ 30C</p>
+            </div> --></div>
 
 
+        </div>
     </div>
+    <footer>
+            <div class="copyrigth">
+                <p>raresign910029 ©2020</p>
+            </div>
+    
+        </footer>
 
-  
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+
     <script>
         // var cards = document.querySelector(".cards");
 
@@ -75,12 +122,17 @@
 
                 var all_locations = res.records.location;
                 // console.log(all_locations);
+                var six_mainCity = [];
+
+                six_mainCity.push(res.records.location[5], res.records.location[1], res.records.location[
+                    13], res.records.location[11], res.records.location[6], res.records.location[
+                    15])
 
                 var dt = new Date;
                 var hour = dt.getHours();
                 var minute = dt.getMinutes();
 
-                all_locations.forEach(location => {
+                six_mainCity.forEach(location => {
                     var locationName = location.locationName;
                     var Wx = location.weatherElement[0].time[0].parameter.parameterName;
                     var Pop = location.weatherElement[1].time[0].parameter.parameterName;
@@ -97,26 +149,21 @@
                                 "https://cdn.pixabay.com/photo/2017/12/06/05/19/moon-3000995_960_720.png"
                         }
 
-                    }
-                    else if (30 <= Pop <= 60) {
+                    } else if (30 <= Pop <= 60) {
                         if (6 <= hour && hour <= 18) {
                             weather_photo_src =
                                 "https://cdn.pixabay.com/photo/2016/03/18/15/07/cloudiness-1265205_960_720.png"
-                        } 
-                        else{
+                        } else {
                             weather_photo_src =
                                 "./img/moon-cloudy.svg"
                         }
-                    } 
-
-
-                    else {
+                    } else {
                         var weather_photo_src =
                             "https://cdn.pixabay.com/photo/2016/03/18/15/05/rain-1265201_960_720.png"
                     }
 
                     $(".row").append(`
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3  ">
+                        
                             <div class="card" style="width: 18rem;" >
                             <img src="${weather_photo_src}" class="card-img-top" width=180px height=180px alt="...">
                             <div class="card-body">
@@ -127,16 +174,17 @@
                                <p class="card-text">溫度: ${MinT} ~ ${MaxT}C</p>
                              </div>
                          </div>
-                        </div>
+                        
                     `)
                     // <a href="#" class="btn btn-primary">Go somewhere</a>
+                    //  <div class="col-6 col-sm-6 col-md-4 col-lg-3  "></div>
                 });
 
             }
         });
     </script>
 
-    
+
 </body>
 
 </html>
